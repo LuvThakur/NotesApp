@@ -1,0 +1,11 @@
+{
+    "launch": {
+        "configurations": [],
+        "compounds": []
+    },
+    "git.alwaysSignOff": false,
+    "git.autorefresh": true,
+    "git.enableCommitSigning": false,
+    "git.ignoreLegacyWarning": true,
+    "git.mergeEditor": false
+}
