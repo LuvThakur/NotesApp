@@ -13,6 +13,8 @@ import NoteState from './ContexAPis/Notes/NoteState';
 import Alert from './Components/Alert';
 import Login from './Components/Login';
 import Signup from './Components/Signup';
+import PasswordResetModal from './Components/PasswordResetModal';
+import ResetPassword from './Components/ResetPassword';
 
 
 function App() {
@@ -39,9 +41,11 @@ function App() {
           <div className='container' >
             <Routes>
               <Route exact path="/" element={<Home aboutalert={handlealert} />} />
-              <Route exact path="/about" element={<About  />} />
+              <Route exact path="/about" element={<About />} />
               <Route exact path="/login" element={<Login aboutalert={handlealert} />} />
               <Route exact path="/signup" element={<Signup aboutalert={handlealert} />} />
+              <Route exact path="/reset" element={<PasswordResetModal aboutalert={handlealert} />} />
+              <Route exact path="/resetpassword/:token" element={<ResetPassword aboutalert={handlealert} />} />
             </Routes>
           </div>
         </Router>

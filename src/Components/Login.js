@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 
 function Login(props) {
     const [credentail, setcredentail] = useState({ email: "", password: "" });
+
+    const [isModalOpen, setIsModalOpen] = useState(false);
 
     const navigate = useNavigate();
 
@@ -58,11 +60,67 @@ function Login(props) {
         catch (error) {
             console.error("error", error.message);
         }
-    }
+    };
 
     const onchangefun = (e) => {
         setcredentail({ ...credentail, [e.target.name]: e.target.value });
-    }
+    };
+
+
+
+    // const handleforgetpassword = () => {
+    //     console.log('handleforgetpassword triggered');
+    //     setIsModalOpen(true);
+    //     console.log(isModalOpen);
+    // };
+
+
+
+    // const handleCloseModal = () => {
+
+    //     setIsModalOpen(false);
+    //     console.log(isModalOpen);
+
+    // }
+
+    // const handleSendResetLink = async (e) => {
+
+    //     e.preventDefault();
+
+    //     const host = process.env.REACT_APP_API_HOST;
+
+    //     try {
+
+    //         const response = await fetch(`${host}/api/auth/resetpassword`, {
+    //             method: 'POST',
+    //             headers: {
+    //                 "Content-Type": "application/json",
+
+    //             },
+    //             body: JSON.stringify({ email: credentail.email })
+    //         })
+
+    //         if (response.ok) {
+    //             props.aboutalert('Forget Password email sent successfully', 'success');
+    //         } else {
+
+    //             const errorData = await response.json();
+    //             console.error('Forget Password Error:', errorData);
+    //             props.aboutalert('Forget Password request failed', 'error');
+    //         }
+
+    //     }
+    //     catch (error) {
+    //         console.error('Forget Password Error:', error.message);
+    //         props.aboutalert('Internal Server Error', 'error');
+    //     }
+
+
+
+    //     setIsModalOpen(false);
+
+    // }
+
 
     return (
         <div className='container my-5 d-flex flex-column '>
@@ -79,8 +137,11 @@ function Login(props) {
                     <input type="password" className="form-control" id="exampleInputPassword1" onChange={onchangefun} name="password" minLength={5} requireds="true" />
                 </div>
 
-                <button type="submit" className="btn btn-primary" >Login</button>
+                <button type="submit" className="btn btn-primary " >Login</button>
+
+                <Link to='/reset' className="mx-5 btn btn-danger" >Forget Password</Link>
             </form>
+
         </div>
     );
 }
