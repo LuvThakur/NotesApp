@@ -11,7 +11,6 @@ export default function ResetPassword(props) {
 
     const [passwordMatch, setpasswordMatch] = useState(true);
     const [passwordLengthError, setPasswordLengthError] = useState(false);
-    const [inputFilled, setinputFilled] = useState(false);
 
 
     const [err1, setSerr1] = useState(true);
@@ -60,8 +59,6 @@ export default function ResetPassword(props) {
         const newPasswordValue = e.target.value;
         setNewPassword(newPasswordValue);
         setpasswordMatch(true);
-        setpasswordMatch(true);
-        setinputFilled(newPasswordValue.trim() !== '');
 
         // Check if the password meets the minimum length requirement
         if (newPasswordValue.length < 5) {
