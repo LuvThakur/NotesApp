@@ -22,3 +22,13 @@
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+
+
+# Ignore the backend/.env file
+backend/.env
+
+# Ignore the backend/node_modules directory
+backend/node_modules/
+
+# Ignore the node_modules directory in the root
+node_modules/

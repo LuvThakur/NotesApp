@@ -1,4 +1,8 @@
 
+// load environment variable 
+require('dotenv').config();
+
+
 const express = require('express');
 const router = express.Router();
 const User = require('./../models/User');
@@ -8,11 +12,18 @@ const fetchuser = require('../middleware/fetchuser')
 const { body, validationResult } = require('express-validator');
 
 const bcrypt = require('bcrypt');
+
 var jwt = require('jsonwebtoken');
 
 
+// console.log("All environment variables:", process.env);
 
-const jwt_secret = "abrakadabra";
+
+
+const jwt_secret = process.env.JWT_SECRET_TOKEN;
+
+// console.log("jwt_secret this is", jwt_secret)
+
 
 // Function to send a password reset email (implement this separately)
 const nodemailer = require('nodemailer');
@@ -20,13 +31,12 @@ const nodemailer = require('nodemailer');
 const { google } = require('googleapis');
 // const { OAuth2 } = require('google-auth-library');
 
-const CLIENT_ID = '335294488149-p4s538112iodda6stmutj1mico6t3um8.apps.googleusercontent.com';
-const CLIENT_SECRET = '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';
-const REDIRECT_URI = 'https://developers.google.com/oauthplayground'
-const REFRESH_TOKEN = '1//04hIFRy0bZqdkCgYIARAAGAQSNwF-L9IrWBwcfZ0f2XaUbW43lUV3mmsoD8soat7Uy67OlNC7Wv3myX7xqSkKni7-F2jHTJLKKUc'
+const CLIENT_ID = process.env.CLIENT_ID;
+const CLIENT_SECRET = process.env.CLIENT_SECRET;
+const REDIRECT_URI = process.env.REDIRECT_URI;
+const REFRESH_TOKEN = process.env.REFRESH_TOKEN;
 
 const oAuth2Client = new google.auth.OAuth2(CLIENT_ID, CLIENT_SECRET, REDIRECT_URI)
-
 
 
 
@@ -167,17 +177,15 @@ router.post('/resetpassword', async (req, res) => {
         }
 
         // Generate a reset token and set an expiration time (e.g., 1 hour)
-        const resetToken = jwt.sign({ userId: user.id }, jwt_secret, { expiresIn: '1h' });
+        const resetToken = jwt.sign({ userId: user.id }, jwt_secret, { expiresIn: '60s' });
 
         // Save the reset token and its expiration time in the user's document
         user.resetToken = resetToken;
-        user.resetTokenExpiration = Date.now() + 3600000; // 1 hour
+        user.resetTokenExpiration = Date.now() + 60000; // 1 hour
         await user.save();
 
         // Send an email with a link containing the reset token
         // (You'll need to implement this function separately)
-
-        // console.log('User object:', user);
 
         sendPasswordResetEmail(user.email, resetToken);
 
@@ -225,15 +233,14 @@ router.post('/resetpassword/:token', async (req, res) => {
 async function sendPasswordResetEmail(email, resetToken) {
     try {
 
-
         // Set the stored refresh token
         oAuth2Client.setCredentials({ refresh_token: REFRESH_TOKEN });
 
+
         // Refresh the access token
         const accessTokenObject = await oAuth2Client.getAccessToken();
-        const accessToken = accessTokenObject.token;
 
-        // console.log("accessToken ", accessToken);
+        const accessToken = accessTokenObject.token;
 
         // Set up Nodemailer transporter with OAuth2
         const transporter = nodemailer.createTransport({

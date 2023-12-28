@@ -1,4 +1,6 @@
 
+require('dotenv').config();
+
 const connectomongo = require('./db');
 const express = require('express')
 var cors = require('cors')
@@ -6,9 +8,8 @@ var cors = require('cors')
 connectomongo();
 
 const app = express()
-const port = 5000
+const port = process.env.PORT || 5000
 app.use(cors())
-
 
 
 // middleware for using req.body

@@ -16,7 +16,7 @@ import Signup from './Components/Signup';
 import PasswordResetModal from './Components/PasswordResetModal';
 import ResetPassword from './Components/ResetPassword';
 
-
+// // concurrently \"npm run start\" &&
 function App() {
 
   const [AlertMessage, setAlertMessage] = useState('');
